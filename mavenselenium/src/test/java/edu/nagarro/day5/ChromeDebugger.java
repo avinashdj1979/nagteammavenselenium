@@ -27,6 +27,9 @@ WebDriver driver;
 	 * 
 	 * Ensure that port matches with the one given in the code - (9014) in this case.  It can be any valid 4 digit number except 8080.
 	 * 
+	 * Do not start executing from loading the driver.
+	 * Navigate to a specific page manually and then execute your cases.
+	 * 
 	 */
 	@BeforeClass
 	public void setUp() {
