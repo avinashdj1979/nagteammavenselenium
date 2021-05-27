@@ -1,4 +1,4 @@
-package edu.nagarro.day5;
+package debugger;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -17,9 +17,20 @@ import org.testng.annotations.Test;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class ElementIdentifierByClassNameLinkTextTags {
+public class ChromeDebugger {
 WebDriver driver;
-	
+	/*
+	 * Run the below command in command prompt 
+	 * chrome --remote-debugging-port=9014 --user-data-dir="D:\selenium\chrometestprofile" to open debugger chrome
+	 * If the chrome path is not set, you have to go the folder where you find chrome installation in your laptop
+	 * To find where chrome is installed use this command - where chrome
+	 * 
+	 * Ensure that port matches with the one given in the code - (9014) in this case.  It can be any valid 4 digit number except 8080.
+	 * 
+	 * Do not start executing from loading the driver.
+	 * Navigate to a specific page manually and then execute your cases.
+	 * 
+	 */
 	@BeforeClass
 	public void setUp() {
 		String userDir = System.getProperty("user.dir");
@@ -29,7 +40,9 @@ WebDriver driver;
 		} catch(Exception e) {
 			System.setProperty("webdriver.chrome.driver", userDir + "\\src\\test\\resources\\drivers\\chromedriver.exe");
 		}
-		driver = new ChromeDriver();
+		ChromeOptions options = new ChromeOptions();
+		options.setExperimentalOption("debuggerAddress", "localhost:9014");
+		driver = new ChromeDriver(options);
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
@@ -60,9 +73,13 @@ WebDriver driver;
 
 		WebElement firstName = driver.findElement(By.className("form-control"));
 		firstName.sendKeys("Abhishek");
-
+		
+		WebElement lastName = driver.findElement(By.className("form-control"));
+		lastName.clear();
+		lastName.sendKeys("Running on Debugger");
 		
 		List<WebElement> inputs = driver.findElements(By.className("form-control"));
+		
 		System.out.println(inputs.size());
 		
 		
