@@ -3,35 +3,52 @@ package edu.nagarro.seleniumbasics;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import edu.framework.nagarro.constants.UIConstants;
+import edu.framework.nagarro.factory.DriverFactory;
+import edu.framework.nagarro.factory.PageProvider;
+import edu.framework.nagarro.pageObjects.HomePage;
+import edu.framework.nagarro.pageObjects.LoginPage;
+import edu.framework.nagarro.utils.PropertyReader;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class SeleniumBasic2 {
 	
 	WebDriver driver;
+	PageProvider pages;
+	String baseUrl;
+	PropertyReader props;
 	
-	@BeforeClass
+	//Pages
+	HomePage homePage;
+	LoginPage loginPage;
+	
+	String email;
+	String password;
+	
+	@BeforeMethod
 	public void setUp() {
-		String userDir = System.getProperty("user.dir");
-		System.out.println(userDir);
-		try {
-			WebDriverManager.chromedriver().setup();
-		} catch(Exception e) {
-			System.setProperty("webdriver.chrome.driver", userDir + "\\src\\test\\resources\\drivers\\chromedriver.exe");
-		}
-		driver = new ChromeDriver();
-		driver.manage().window().maximize();
+		driver = DriverFactory.getDriver();
+	    props = new PropertyReader();
+		baseUrl = props.getProperty(UIConstants.BASE_URL);
+		pages = new PageProvider(driver);
+		homePage = pages.getHomePage();
+		loginPage = pages.getLoginPage();
 	}
 	
 	@Test
 	public void addressBook() {
-		driver.get("http://a.testaddressbook.com");
-		driver.findElement(By.id("sign-i")).click();
+		driver.get(baseUrl);
+		homePage.clickSignIn();
+		email = props.getProperty(UIConstants.EMAIL);
+		
+		loginPage.typeEmail(email);
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
@@ -39,7 +56,7 @@ public class SeleniumBasic2 {
 		}
 	}
 	
-	@Test
+	//@Test
 	public void openGoogle() {
 		driver.get("https://www.google.com");
 		try {
@@ -49,7 +66,7 @@ public class SeleniumBasic2 {
 		}
 	}
 	
-	@AfterClass
+	@AfterMethod
 	public void tearDown() {
 		driver.close();
 		driver.quit();

@@ -15,6 +15,7 @@ public class SeleniumBasic1 {
 		} catch(Exception e) {
 			System.setProperty("webdriver.chrome.driver", userDir + "\\src\\test\\resources\\drivers\\chromedriver.exe");
 		}
+		
 		WebDriver driver = new ChromeDriver();
 		driver.get("https://www.google.com");
 		
