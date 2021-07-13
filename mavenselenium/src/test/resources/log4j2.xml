@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+<Properties>
+	<Property name="logfile">reports/logs/testautomation.log</Property>
+</Properties>
+<Appenders>
+	<Console name="console" target="SYSTEM_OUT">
+		<PatternLayout pattern="%d{DATE} %level %C - %M - %m%n"/>
+	</Console>
+	<File name="fileAppender" filename="${logfile}">
+		<PatternLayout pattern="%d{DATE} %level - %m%n"/>
+	</File>
+</Appenders>
+
+<Loggers>
+<Root level="error">
+	<AppenderRef ref="fileAppender"/>
+</Root>
+</Loggers>
+
+</Configuration>
+
+<!-- 
+1. trace
+2. debug
+3. info
+4. warn
+5. error
+ -->
+
+
+
+
+
+
+
+
